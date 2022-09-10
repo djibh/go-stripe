@@ -62,13 +62,12 @@ func main() {
 	flag.Parse()
 
 	// allows use of os.Getenv with .env file
-	goDotEnvErr := godotenv.Load()
+	goDotEnvErr := godotenv.Load(".env")
 	if goDotEnvErr != nil {
 		log.Fatal("Error loading .env file")
 	}
 
-	cfg.stripe.key = "pk_test_51LQsM7KOkXDjyLJUswASEEznzoVCicQGGtzds1BJ3wIUCXKSeRDxlpWOLK0MJiILSKo7dhywGtvihf1FkQ2r9fj600GJxHxFsL"
-	//cfg.stripe.key = os.Getenv("STRIPE_KEY")
+	cfg.stripe.key = os.Getenv("STRIPE_KEY")
 	cfg.stripe.secret = os.Getenv("STRIPE_SECRET")
 
 	infoLog := log.New(os.Stdout, "INFO\t", log.Ldate|log.Ltime)
