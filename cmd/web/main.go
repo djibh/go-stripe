@@ -8,6 +8,8 @@ import (
 	"os"
 	"text/template"
 	"time"
+
+	"github.com/joho/godotenv"
 )
 
 const version = "1.0.0"
@@ -50,6 +52,7 @@ func (app *application) serve() error {
 }
 
 func main() {
+
 	var cfg config
 
 	flag.IntVar(&cfg.port, "port", 4000, "Server port to listen on")
@@ -58,7 +61,14 @@ func main() {
 
 	flag.Parse()
 
-	cfg.stripe.key = os.Getenv("STRIPE_KEY")
+	// allows use of os.Getenv with .env file
+	goDotEnvErr := godotenv.Load()
+	if goDotEnvErr != nil {
+		log.Fatal("Error loading .env file")
+	}
+
+	cfg.stripe.key = "pk_test_51LQsM7KOkXDjyLJUswASEEznzoVCicQGGtzds1BJ3wIUCXKSeRDxlpWOLK0MJiILSKo7dhywGtvihf1FkQ2r9fj600GJxHxFsL"
+	//cfg.stripe.key = os.Getenv("STRIPE_KEY")
 	cfg.stripe.secret = os.Getenv("STRIPE_SECRET")
 
 	infoLog := log.New(os.Stdout, "INFO\t", log.Ldate|log.Ltime)
